@@ -1,4 +1,4 @@
-use rand::Rng
+use rand::Rng;
 use std::env;
 
 #[derive(Debug)]
@@ -28,11 +28,13 @@ fn search_match(person_details: PersonDetails){
 fn main(){
 	let  cli_name: String = env::args().nth(1).expect("Please provide a name!");
 	let  cli_gender: String = env::args().nth(2).expect("Please provide your gender");
-	
+	let male: String = String::from("M");
+	let female: String = String::from("F");
+	let others: String = String::from("O");
 	let cli_gender_mapped: GenderType = match cli_gender {
-		"M".to_string() => GenderType::Male,
-		"F".to_string() => GenderType::Female,
-		"O".to_string() => GenderType::Other,
+		male => GenderType::Male,
+		female => GenderType::Female,
+		others => GenderType::Other,
 	};
   	let detail = PersonDetails {
 		name: cli_name,
