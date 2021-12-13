@@ -1,2 +1,2 @@
-# find-my-match
-Application to find matches for potential dates
+# Find My Match
+Application for finding potential dates
