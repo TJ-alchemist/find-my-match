@@ -48,6 +48,18 @@ fn file_writer<P: AsRef<Path>, C: AsRef<[u8]>>(path: P, contents: C) -> io::Resu
     Ok(())
 }
 
+fn read_user_from_file<P: AsRef<Path>>(path: P) -> Result<Vec<PersonDetails>, Box<dyn Error>> {
+    // Open the file in read-only mode with buffer.
+    let file = File::open(path)?;
+    let reader = BufReader::new(file);
+
+    // Read the JSON contents of the file as an instance of `User`.
+    let u: Vec<PersonDetails> = serde_json::from_reader(reader)?;
+
+    // Return the `User`.
+    Ok(u)
+}
+
 // impl AsRef<User> for PersonDetails {
 //     fn as_ref(&self) -> &User {
 //         &self.user
@@ -112,12 +124,15 @@ fn main()  {
     // echo(u, &Path::new("b.txt")).unwrap_or_else(|why| {
     //     println!("! {:?}", why.kind());
     // });
-    let all_users = vec![user];
+
+    let mut all_users = read_user_from_file("db.json").unwrap();
+    all_users.push(user);
     let j = serde_json::to_string_pretty(&all_users).unwrap();
-    file_writer(Path::new("o.json"), &j);
+    file_writer(Path::new("db.json"), &j); 
     // println!("{:?}", j);
     // println!("{:#?}", u);
 
+     println!("{:#?}", all_users);
      // Create a vector of all the people details structure
      // loop through it and output the info
      // Ask whether u like him or her (Preference)

@@ -1,8 +1,8 @@
 [
-	{
-		"name": "Samuel Jackson",
-		"user_name": "samuel_jackson",
-		"age": 50,
-		"gender": "M",
-	}
+  {
+    "name": "John Doe",
+    "user_name": "john_doe",
+    "age": 30,
+    "gender": "Male"
+  }
 ]
