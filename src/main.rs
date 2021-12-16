@@ -1,10 +1,16 @@
-use rand::Rng;
-use std::env;
-use std::collections::HashMap;
+// use rand::Rng;
+// use std::env;
+// use std::collections::HashMap;
 use std::io;
+use std::fs::{File, OpenOptions, write};
+use serde::{Serialize, Deserialize};
+use std::path::Path;
+use std::io::{Read, BufReader};
+use serde_json;
+use std::error::Error;
+use std::fs;
 
-
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 enum Gender {
     Male,
   	Female,
@@ -18,7 +24,8 @@ enum Gender {
 //    Seniors
 //}
 //
-#[derive(Debug)]
+
+#[derive(Debug, Serialize, Deserialize)]
 struct PersonDetails {
   	name: String,
     user_name: String,
@@ -27,29 +34,40 @@ struct PersonDetails {
 //    preference: Option<HashMap<AgeGroup, Vec<PersonDetails>>>
 }
 
-//impl PersonDetails {
-//    fn new_user(&self) -> Self {
-//        let mut fields: u8 = 4;
-//        while fields != 0 {
-//            
-//            io::stdin()
-//                .read_line(&mut self.name)
-//                .expect("Something went wrong");
-//            fields -= 1;
-//        }
-//
-//        Self {
-//            name: self.name,
-//            user_name: self.user_name,
-//            age: self.age,
-//            gender: self.gender,
-//            preference: self.preference
-//        }
-//    }
-//}
+fn touch(path: &Path) -> io::Result<()> {
+    match OpenOptions::new().create(true).write(true).open(path) {
+        Ok(_) => Ok(()),
+        Err(e) => Err(e),
+    }
+}
 
-fn main() {
-//    let users: Vec<PersonDetails> = Vec::new();
+fn file_writer<P: AsRef<Path>, C: AsRef<[u8]>>(path: P, contents: C) -> io::Result<()> {
+// fn file_writer(v: Vec<PersonDetails>, path: &Path) -> io::Result<()> {
+    //fs::write("foo.txt", b"Lorem ipsum")?;
+    fs::write(path, &contents)?;
+    Ok(())
+}
+
+// impl AsRef<User> for PersonDetails {
+//     fn as_ref(&self) -> &User {
+//         &self.user
+//     }
+// }
+
+// serde library
+impl PersonDetails {
+    fn register(&self) {
+        // let json_file_path = Path::new("db.json");
+        // let file = File::open(json_file_path);
+        // let reader = BufReader::new(file);
+        // let users = serde_json::from_reader(reader);   
+        // println!("{:?}", users);
+    }
+}
+
+fn main()  {
+
+    // let users: Vec<PersonDetails> = Vec::new();
     println!("Welcome to Find-My-Match");
     println!("Lets start..");
     // Accepting name of the user
@@ -85,7 +103,27 @@ fn main() {
             Gender::Other
         }
     };
+    // let j = serde_json::to_string(&user)?;    
+    // let user_json = serde_json::to_string(&user).unwrap();
+    // println!("{}", user_json);
+    
+    // user.register();
+    // let u = read_user_from_file("db.json").unwrap();
+    // echo(u, &Path::new("b.txt")).unwrap_or_else(|why| {
+    //     println!("! {:?}", why.kind());
+    // });
+    let all_users = vec![user];
+    let j = serde_json::to_string_pretty(&all_users).unwrap();
+    file_writer(Path::new("o.json"), &j);
+    // println!("{:?}", j);
+    // println!("{:#?}", u);
 
-    println!("{:?}", user);
+     // Create a vector of all the people details structure
+     // loop through it and output the info
+     // Ask whether u like him or her (Preference)
+     // Take age of the other person
+     
+
+     // println!("{:?}", user);
 
 }
