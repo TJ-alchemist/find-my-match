@@ -1,6 +1,3 @@
-// use rand::Rng;
-// use std::env;
-// use std::collections::HashMap;
 use std::io;
 use std::fs::{File, OpenOptions, write};
 use serde::{Serialize, Deserialize};
@@ -10,20 +7,11 @@ use serde_json;
 use std::error::Error;
 use std::fs;
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, PartialEq)]
 enum Gender {
     Male,
-  	Female,
-	Other
+  	Female
 }
-
-//#[derive(Debug)]
-//enum AgeGroup {
-//    Youth,
-//    Adults,
-//    Seniors
-//}
-//
 
 #[derive(Debug, Serialize, Deserialize)]
 struct PersonDetails {
@@ -32,50 +20,18 @@ struct PersonDetails {
     age: u8,
   	gender: Gender,
     preferences: Vec<String>
-//    preference: Option<HashMap<AgeGroup, Vec<PersonDetails>>>
 }
-
-fn touch(path: &Path) -> io::Result<()> {
-    match OpenOptions::new().create(true).write(true).open(path) {
-        Ok(_) => Ok(()),
-        Err(e) => Err(e),
-    }
-}
-
+    
 fn file_writer<P: AsRef<Path>, C: AsRef<[u8]>>(path: P, contents: C) -> io::Result<()> {
-// fn file_writer(v: Vec<PersonDetails>, path: &Path) -> io::Result<()> {
-    //fs::write("foo.txt", b"Lorem ipsum")?;
     fs::write(path, &contents)?;
     Ok(())
 }
 
 fn read_user_from_file<P: AsRef<Path>>(path: P) -> Result<Vec<PersonDetails>, Box<dyn Error>> {
-    // Open the file in read-only mode with buffer.
     let file = File::open(path)?;
     let reader = BufReader::new(file);
-
-    // Read the JSON contents of the file as an instance of `User`.
     let u: Vec<PersonDetails> = serde_json::from_reader(reader)?;
-
-    // Return the `User`.
     Ok(u)
-}
-
-// impl AsRef<User> for PersonDetails {
-//     fn as_ref(&self) -> &User {
-//         &self.user
-//     }
-// }
-
-// serde library
-impl PersonDetails {
-    fn register(&self) {
-        // let json_file_path = Path::new("db.json");
-        // let file = File::open(json_file_path);
-        // let reader = BufReader::new(file);
-        // let users = serde_json::from_reader(reader);   
-        // println!("{:?}", users);
-    }
 }
 
 fn main()  {
@@ -88,9 +44,9 @@ fn main()  {
     let mut registered: String = String::new();
     io::stdin().read_line(&mut registered).expect("Something went wrong");
     registered = registered.trim().to_string();
-    
+
     let mut all_users = read_user_from_file("db.json").unwrap();
-    
+    let s1: String = String::from("Hello");
     if registered == "n" {
         // Accepting name of the user
         println!("\nEnter your name:");
@@ -119,10 +75,8 @@ fn main()  {
             age: age,
             gender: if gender == "M" {
                 Gender::Male
-            } else if gender == "F" {
-                Gender::Female
             } else {
-                Gender::Other
+                Gender::Female
             },
             preferences: Vec::new()
         };
@@ -156,30 +110,46 @@ fn main()  {
     } else {
         // To validate name and username
         let mut is_user: bool = false;
-        println!("Please enter your name and user_name");
+        let mut user_gender: &Gender = &Gender::Male;
+        println!("\nPlease enter your name and user_name");
         let mut details: Vec<String> = vec!["".to_string(), "".to_string()];
-        println!("Your name:");
+        println!("\nYour name:");
         io::stdin().read_line(&mut details[0]).expect("Cannot read name");
         details[0] = details[0].trim().to_string();
-        println!("Your user_name:");
+        println!("\nYour user_name:");
         io::stdin().read_line(&mut details[1]).expect("Could not read user_name");
         details[1] = details[1].trim().to_string();
 
         for user in &all_users {
             if user.name == details[0] && user.user_name == details[1] {
                 is_user = true;
+                user_gender = &user.gender;
                 break;
             } else {
-                println!("Name and user_name doesn't match!");
+                println!("\nName and user_name doesn't match!");
                 break;
             }
         }
 
         if is_user {
+            let mut liked_or_not: String = String::new();
+            let mut choices: Vec<&String> = Vec::new();
+            println!("\nRegistered users:\n");
             for user in &all_users {
-                println!("Name: {},\n Username: {},\n Age: {},\n Gender: {:?}\n", 
-                         user.name, user.user_name, user.age, user.gender);
+                if details[1] != user.user_name && user_gender != &user.gender {
+                    println!("Name: {},\nUsername: {},\nAge: {},\nGender: {:?}\n", 
+                             user.name, user.user_name, user.age, user.gender);
+                    println!("Do you like: {}? [y/n]", user.name);
+                    io::stdin().read_line(&mut liked_or_not).expect("Something went wrong");
+                    liked_or_not = liked_or_not.trim().to_string();
+                    if liked_or_not == "y" {
+                        choices.push(&user.user_name);
+                    }
+                    liked_or_not.clear();
+                }
             }
+            println!("\nThe list of user information has exhausted!\n");
+            println!("\nAll your preferences:\n{:?}", choices);
         }
     }
 }
