@@ -1,17 +1,15 @@
+use serde_json;
 use std::io;
 use std::path::Path;
-use serde_json;
 mod utils;
 
-
-fn main()  {
-    
+fn main() {
     // CLUSTER: Introductory message
     // ----------
     println!("\n|| Welcome to Find-My-Match");
     println!("|| Lets start.. (If you're not a user, please register and start again)\n");
     // ----------
-    
+
     // CLUSTER: Already registered or not
     // ----------
     println!("|| Are you already registered? [y/n]");
@@ -22,18 +20,17 @@ fn main()  {
     // ----------
     let mut all_users = utils::read_user_from_file("db.json").unwrap();
     // ----------
-    
+
     // NOTE: Comparing different types (String with &str) [still works]
     if registered == "n" {
-        
         // CLUSTER: Accepting user information
         // ----------
         println!("\n-> Enter your name:");
-        let name: String = utils::user_input("Could not read name!"); 
-        
+        let name: String = utils::user_input("Could not read name!");
+
         println!("\n-> Enter a user_name:");
-        let user_name: String = utils::user_input("Could not read user_name!");    
-        
+        let user_name: String = utils::user_input("Could not read user_name!");
+
         println!("\n-> Enter your age:");
         let age: String = utils::user_input("Could not read age!");
         let age: u8 = age.trim().parse().expect("Could not parse age");
@@ -41,7 +38,7 @@ fn main()  {
         println!("\n-> Enter gender (m/f):");
         let gender: String = utils::user_input("Could not read gender!");
         // ----------
-        
+
         // CLUSTER: Creating the user object
         // ----------
         let user = utils::PersonDetails {
@@ -53,20 +50,18 @@ fn main()  {
             } else {
                 utils::Gender::Female
             },
-            preferences: Vec::new()
+            preferences: Vec::new(),
         };
         // ----------
-        
+
         // CLUSTER: Adding user to the list of other users
         // ----------
         all_users.push(user);
         let j = serde_json::to_string_pretty(&all_users).unwrap();
-        utils::file_writer(Path::new("db.json"), &j); 
+        utils::file_writer(Path::new("db.json"), &j);
         println!("** User registered! **");
         // ----------
-        
     } else {
-        
         // CLUSTER: To validate name and username
         // ----------
         let mut is_user: bool = false;
@@ -74,10 +69,14 @@ fn main()  {
         println!("\n|| Please enter your name and user_name");
         let mut details: Vec<String> = vec!["".to_string(), "".to_string()];
         println!("\n-> Your name:");
-        io::stdin().read_line(&mut details[0]).expect("Cannot read name");
+        io::stdin()
+            .read_line(&mut details[0])
+            .expect("Cannot read name");
         details[0] = details[0].trim().to_string();
         println!("\n-> Your user_name:");
-        io::stdin().read_line(&mut details[1]).expect("Could not read user_name");
+        io::stdin()
+            .read_line(&mut details[1])
+            .expect("Could not read user_name");
         details[1] = details[1].trim().to_string();
 
         for user in &all_users {
@@ -101,15 +100,19 @@ fn main()  {
             for user in &all_users {
                 if details[1] != user.user_name && user_gender != &user.gender {
                     println!("--------------------");
-                    println!("> Name: {},\n> Username: @{},\n> Age: {},\n> Gender: {:?}\n", 
-                             user.name, user.user_name, user.age, user.gender);
+                    println!(
+                        "> Name: {},\n> Username: @{},\n> Age: {},\n> Gender: {:?}\n",
+                        user.name, user.user_name, user.age, user.gender
+                    );
                     println!("| Do you like: {}? [y/n]", user.name);
-                    io::stdin().read_line(&mut liked_or_not).expect("Something went wrong");
+                    io::stdin()
+                        .read_line(&mut liked_or_not)
+                        .expect("Something went wrong");
                     liked_or_not = liked_or_not.trim().to_string();
                     if liked_or_not == "y" {
                         choices.push(&user.user_name);
                     }
-                    liked_or_not.clear();  
+                    liked_or_not.clear();
                     println!("--------------------");
                 }
             }

@@ -1,23 +1,22 @@
-
-use std::io;
-use std::fs::{File};
-use serde::{Serialize, Deserialize};
-use std::path::Path;
-use std::io::{BufReader};
+use serde::{Deserialize, Serialize};
 use serde_json;
 use std::error::Error;
 use std::fs;
+use std::fs::File;
+use std::io;
+use std::io::BufReader;
+use std::path::Path;
 
-/* 
- * Gender enum which holds 2 variants Male & Female. .. 
+/*
+ * Gender enum which holds 2 variants Male & Female. ..
  * These variants can be directly stored to a file. ..
- * These variants will be mapped according to the.. 
+ * These variants will be mapped according to the..
  * selection from terminal / prompt.
 */
 #[derive(Debug, Serialize, Deserialize, PartialEq)]
 pub enum Gender {
     Male,
-  	Female
+    Female,
 }
 
 /*
@@ -26,11 +25,11 @@ pub enum Gender {
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PersonDetails {
-  	pub name: String,
+    pub name: String,
     pub user_name: String,
     pub age: u8,
-  	pub gender: Gender,
-    pub preferences: Vec<String>
+    pub gender: Gender,
+    pub preferences: Vec<String>,
 }
 
 /*
