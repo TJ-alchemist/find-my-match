@@ -3,6 +3,28 @@
     "name": "John Doe",
     "user_name": "john_doe",
     "age": 30,
-    "gender": "Male"
+    "gender": "Male",
+    "preferences": []
+  },
+  {
+    "name": "Jack nicholson",
+    "user_name": "jack_nicholson",
+    "age": 75,
+    "gender": "Male",
+    "preferences": []
+  },
+  {
+    "name": "Katy Perry",
+    "user_name": "katy_perry",
+    "age": 30,
+    "gender": "Female",
+    "preferences": []
+  },
+  {
+    "name": "Taylor Swift",
+    "user_name": "taylor_swift",
+    "age": 30,
+    "gender": "Female",
+    "preferences": []
   }
 ]
