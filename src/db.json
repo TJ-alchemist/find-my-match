@@ -26,5 +26,12 @@
     "age": 30,
     "gender": "Female",
     "preferences": []
+  },
+  {
+    "name": "Samuel Jackson",
+    "user_name": "samuel_is_bad_ass",
+    "age": 55,
+    "gender": "Male",
+    "preferences": []
   }
 ]
