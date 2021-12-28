@@ -3,7 +3,9 @@ A CLI application to list and find possible matches.
 
 > Flow of the process
   
-<img src="https://user-images.githubusercontent.com/57192661/147559484-f59fe63f-7d64-4392-8832-0faea2b14ca3.jpg" style="width:300px; height:400px;">  
+<img src="https://user-images.githubusercontent.com/57192661/147573965-7e1dcb90-caf3-4ac5-bed2-467ba8017fb8.png" style="width:400px; height:500px;">  
+
+<br>
 
 > Pointers,
 * For registration, a new user will have to provide name, username, age and gender
