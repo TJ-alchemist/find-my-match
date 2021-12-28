@@ -22,3 +22,5 @@ $ cargo run
 std::process::exit(0);
 ```
 :zap: :zap: :zap:
+
+:thumbsup: Any improvements / suggestions are welcome.
