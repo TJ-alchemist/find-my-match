@@ -4,12 +4,16 @@ use serde_json;
 use std::path::Path;
 
 
+/// For specifying if the user is a ..
+/// male or a female.
 #[derive(Debug, Serialize, Deserialize, PartialEq)]
 pub enum Gender {
     Male,
     Female,
 }
 
+/// For grouping user information and can ..
+/// have additional fields.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct User {
     pub name: String,
@@ -20,13 +24,17 @@ pub struct User {
     pub is_user: bool
 }
 
+/// ** Implementing 'User' **
 impl User {
 
+    /// Greeting message at the start of the ..
+    /// application.
     pub fn greeting() {
         println!("\n|| Welcome to Find-My-Match");
         println!("|| Lets start.. (If you're not a user, please register and start again)\n");
     }
 
+    /// Checking if the user is registered or not.
     pub fn is_registered() -> bool {
        println!("|| Are you already registered? [y/n]");
        let yes_or_no: String = utils::user_input("Something went wrong!");
@@ -37,6 +45,8 @@ impl User {
        }
     }
 
+    /// Asking the user information if he / she ..
+    /// is not registered.
     pub fn ask_user_info() -> Self {
         println!("\n-> Enter your name:");
         let name: String = utils::user_input("Could not read name!");
@@ -61,7 +71,9 @@ impl User {
             is_user: true
         }
     }
-    
+
+    /// Registering the user after collecting ..
+    /// information.
     pub fn register(self){ 
         let mut all_users = utils::read_all("db.json").unwrap();
         all_users.push(self);
@@ -70,6 +82,7 @@ impl User {
         println!("** User registered! **");
     }
 
+    /// Validating the user when signing in.
     pub fn validate_credentials() -> User {
         let mut is_user: bool = false;
         let mut age: u8 = 0;
@@ -100,6 +113,10 @@ impl User {
         }
     }
 
+    /// Displays the list of all the profiles ..
+    /// that are registered. And the user is ..
+    /// also able to select profiles of opposite ..
+    /// gender.
     pub fn select_matches(user_name: String, user_gender: Gender) {
         let mut liked_or_not: String;
         let mut choices: Vec<String> = Vec::new();
