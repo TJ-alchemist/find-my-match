@@ -11,15 +11,16 @@ pub enum Gender {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct Users {
+pub struct User {
     pub name: String,
     pub user_name: String,
     pub age: u8,
     pub gender: Gender,
     pub preferences: Vec<String>,
+    pub is_user: bool
 }
 
-impl Users {
+impl User {
 
     pub fn greeting() {
         println!("\n|| Welcome to Find-My-Match");
@@ -56,7 +57,8 @@ impl Users {
             } else {
                 Gender::Female
             },
-            preferences: Vec::new()
+            preferences: Vec::new(),
+            is_user: true
         }
     }
     
@@ -68,9 +70,11 @@ impl Users {
         println!("** User registered! **");
     }
 
-    pub fn validate_credentials() -> (bool, String, Gender) {
+    pub fn validate_credentials() -> User {
         let mut is_user: bool = false;
+        let mut age: u8 = 0;
         let mut user_gender: Gender = Gender::Male;
+        let user_preferences: Vec<String> = vec![];
         println!("\n|| Please enter your name and user_name");
         println!("\n-> Your name: [case-sensitive]");
         let name: String = utils::user_input("Could not read name");
@@ -80,12 +84,20 @@ impl Users {
         for user in all_users {
             if user.name == name && user.user_name == user_name {
                 is_user = true;
+                age = user.age;
                 user_gender = user.gender;
                 break;
             }
         }
-
-        (is_user, user_name, user_gender)
+        
+        User {
+            name: name,
+            user_name: user_name,
+            age: age,
+            gender: user_gender,
+            preferences: user_preferences,
+            is_user: is_user
+        }
     }
 
     pub fn select_matches(user_name: String, user_gender: Gender) {

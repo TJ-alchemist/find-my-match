@@ -5,7 +5,7 @@ use std::fs::File;
 use std::io;
 use std::io::BufReader;
 use std::path::Path;
-use crate::users::Users;
+use crate::users::User;
 
 
 pub fn write_all<P: AsRef<Path>, C: AsRef<[u8]>>(path: P, contents: C) -> io::Result<()> {
@@ -13,11 +13,11 @@ pub fn write_all<P: AsRef<Path>, C: AsRef<[u8]>>(path: P, contents: C) -> io::Re
     Ok(())
 }
 
-pub fn read_all<P>(path: P) -> Result<Vec<Users>, Box<dyn Error>>
+pub fn read_all<P>(path: P) -> Result<Vec<User>, Box<dyn Error>>
   where P: AsRef<Path> {
     let file = File::open(path)?;
     let reader = BufReader::new(file);
-    let u: Vec<Users> = serde_json::from_reader(reader)?;
+    let u: Vec<User> = serde_json::from_reader(reader)?;
     Ok(u)
 }
 

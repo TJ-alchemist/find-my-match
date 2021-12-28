@@ -3,18 +3,18 @@ mod users;
 
 fn main() {
      
-    users::Users::greeting();
+    users::User::greeting();
     
-    if users::Users::is_registered() {
-        let details = users::Users::validate_credentials();
-        match details.0 {
+    if users::User::is_registered() {
+        let registered_user = users::User::validate_credentials();
+        match registered_user.is_user {
             true => println!("\n---------- Successfully logged in! ----------"),
             false => panic!("Invalid credentials!")
         };
-        users::Users::select_matches(details.1, details.2);
+        users::User::select_matches(registered_user.user_name, registered_user.gender);
 
     } else {
-        let user = users::Users::ask_user_info();
+        let user = users::User::ask_user_info();
         user.register();
     }
 

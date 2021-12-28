@@ -4,34 +4,39 @@
     "user_name": "john_doe",
     "age": 30,
     "gender": "Male",
-    "preferences": []
+    "preferences": [],
+	"is_user": true
   },
   {
     "name": "Jack nicholson",
     "user_name": "jack_nicholson",
     "age": 75,
     "gender": "Male",
-    "preferences": []
+    "preferences": [],
+	"is_user": true
   },
   {
     "name": "Katy Perry",
     "user_name": "katy_perry",
     "age": 30,
     "gender": "Female",
-    "preferences": []
+    "preferences": [],
+	"is_user": true
   },
   {
     "name": "Taylor Swift",
     "user_name": "taylor_swift",
     "age": 30,
     "gender": "Female",
-    "preferences": []
+    "preferences": [],
+	"is_user": true
   },
   {
     "name": "Samuel Jackson",
     "user_name": "samuel_is_bad_ass",
     "age": 55,
     "gender": "Male",
-    "preferences": []
+    "preferences": [],
+	"is_user": true
   }
 ]
